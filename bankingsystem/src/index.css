@@ -1,0 +1,184 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8; /* subtle background */
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input, select, button {
+  margin: 8px 0;
+  padding: 10px;
+  width: 100%;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.login, .dashboard, .modal {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 25px 20px;
+  margin: 20px auto;
+  width: 320px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  width: 300px;
+}
+
+table {
+  margin-top: 15px;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+table, th, td {
+  border: 1px solid #bbb;
+}
+
+th {
+  background-color: #f0f0f0;
+  text-align: left;
+}
+
+th, td {
+  padding: 10px;
+}
+.dashboard {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 25px 30px;
+  margin: 40px auto;
+  width: 80vw;
+  max-width: 900px;
+  min-height: 70vh;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.dashboard h2 {
+  margin-bottom: 20px;
+}
+
+.dashboard table {
+  width: 100%;
+  margin-top: 15px;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.dashboard th, .dashboard td {
+  border: 1px solid #bbb;
+  padding: 12px 15px;
+}
+
+.dashboard th {
+  background-color: #f0f0f0;
+  text-align: left;
+}
+
+.dashboard button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dashboard button:hover {
+  background-color: #0056b3;
+}
+@media (max-width: 600px) {
+  .dashboard {
+    width: 95vw;
+    padding: 15px 10px;
+  }
+
+  .dashboard table, 
+  .dashboard thead, 
+  .dashboard tbody, 
+  .dashboard th, 
+  .dashboard td, 
+  .dashboard tr { 
+    display: block; 
+    width: 100%;
+  }
+
+  .dashboard thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .dashboard tr {
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee;
+  }
+
+  .dashboard td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+    text-align: left;
+  }
+
+  .dashboard td:before {
+    position: absolute;
+    top: 12px;
+    left: 10px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    font-weight: bold;
+  }
+
+  /* Labels for each td, adjust according to table columns */
+  .dashboard td:nth-of-type(1):before { content: "Name"; }
+  .dashboard td:nth-of-type(2):before { content: "Email"; }
+  .dashboard td:nth-of-type(3):before { content: "Action"; }
+
+  /* For transaction table */
+  .dashboard td:nth-of-type(1):before { content: "Type"; }
+  .dashboard td:nth-of-type(2):before { content: "Amount"; }
+  .dashboard td:nth-of-type(3):before { content: "Date"; }
+
+  .dashboard button {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+}
+

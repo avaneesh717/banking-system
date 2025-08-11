@@ -69,6 +69,7 @@ th {
 th, td {
   padding: 10px;
 }
+
 .dashboard {
   background-color: #fff;
   border: 1px solid #ccc;
@@ -121,6 +122,42 @@ th, td {
 .dashboard button:hover {
   background-color: #0056b3;
 }
+
+/* Enhanced Responsive Design */
+@media (max-width: 768px) {
+  .login, .dashboard, .modal {
+    width: 90vw;
+    padding: 20px 15px;
+    margin: 10px auto;
+  }
+  
+  .dashboard {
+    width: 95vw;
+    padding: 20px 15px;
+    margin: 20px auto;
+  }
+  
+  .modal {
+    width: 90vw;
+    max-width: 350px;
+  }
+  
+  input, select, button {
+    font-size: 16px; /* Better for mobile touch */
+    padding: 12px;
+  }
+  
+  .dashboard h2 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  .dashboard h3 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+}
+
 @media (max-width: 600px) {
   .dashboard {
     width: 95vw;
@@ -146,6 +183,9 @@ th, td {
   .dashboard tr {
     margin-bottom: 15px;
     border-bottom: 2px solid #eee;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
   }
 
   .dashboard td {
@@ -153,32 +193,96 @@ th, td {
     position: relative;
     padding-left: 50%;
     text-align: left;
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 
   .dashboard td:before {
     position: absolute;
-    top: 12px;
+    top: 8px;
     left: 10px;
     width: 45%;
     padding-right: 10px;
     white-space: nowrap;
     font-weight: bold;
+    color: #007bff;
   }
 
-  /* Labels for each td, adjust according to table columns */
-  .dashboard td:nth-of-type(1):before { content: "Name"; }
-  .dashboard td:nth-of-type(2):before { content: "Email"; }
-  .dashboard td:nth-of-type(3):before { content: "Action"; }
+  /* Labels for customer table */
+  .dashboard tr:first-child td:nth-of-type(1):before { content: "Name: "; }
+  .dashboard tr:first-child td:nth-of-type(2):before { content: "Email: "; }
+  .dashboard tr:first-child td:nth-of-type(3):before { content: "Action: "; }
 
-  /* For transaction table */
-  .dashboard td:nth-of-type(1):before { content: "Type"; }
-  .dashboard td:nth-of-type(2):before { content: "Amount"; }
-  .dashboard td:nth-of-type(3):before { content: "Date"; }
+  /* Labels for transaction table */
+  .dashboard tr:not(:first-child) td:nth-of-type(1):before { content: "Type: "; }
+  .dashboard tr:not(:first-child) td:nth-of-type(2):before { content: "Amount: "; }
+  .dashboard tr:not(:first-child) td:nth-of-type(3):before { content: "Date: "; }
 
   .dashboard button {
-    width: 100%;
+    width: auto;
+    min-width: 120px;
     margin-left: 0;
     margin-top: 5px;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 6px;
   }
+  
+  /* Better spacing for mobile */
+  .dashboard > * {
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login, .dashboard, .modal {
+    width: 95vw;
+    padding: 15px 10px;
+  }
+  
+  .dashboard {
+    width: 98vw;
+    padding: 15px 8px;
+  }
+  
+  .dashboard h2 {
+    font-size: 1.3rem;
+  }
+  
+  .dashboard h3 {
+    font-size: 1.1rem;
+  }
+  
+  input, select, button {
+    font-size: 16px;
+    padding: 12px 8px;
+  }
+  
+  .dashboard td {
+    padding-left: 45%;
+    font-size: 14px;
+  }
+  
+  .dashboard td:before {
+    width: 40%;
+    font-size: 13px;
+  }
+}
+
+/* Loading state styling */
+.dashboard p {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+/* Better button states */
+.dashboard button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.dashboard button:active {
+  transform: translateY(1px);
 }
 

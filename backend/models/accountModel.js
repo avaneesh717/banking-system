@@ -1,35 +1,60 @@
-const db = require('./db');
+const mongoose = require('mongoose');
 
+// Account Schema
+const accountSchema = new mongoose.Schema({
+  user_id: String,
+  type: String,
+  amount: Number,
+  created_at: { type: Date, default: Date.now }
+});
+
+const Account = mongoose.model('Account', accountSchema);
+
+// Keep exact same function names and structure
 const getTransactionsByUserId = (userId, callback) => {
-  db.query("SELECT id, user_id, type, amount, created_at FROM Accounts WHERE user_id = ? ORDER BY created_at DESC", [userId], callback);
+  Account.find({ user_id: userId })
+    .sort({ created_at: -1 })
+    .then(results => callback(null, results))
+    .catch(err => callback(err));
 };
 
 const createTransaction = (userId, type, amount, callback) => {
-  console.log("DB Insert:", { userId, type, amount });  // Debug log before insert
-  db.query(
-    "INSERT INTO Accounts (user_id, type, amount) VALUES (?, ?, ?)",
-    [userId, type, amount],
-    (err, results) => {
-      if (err) {
-        console.error("SQL Insert Error:", err);  // Log detailed SQL error
-        return callback(err);
-      }
-      callback(null, results);
-    }
-  );
+  console.log("DB Insert:", { userId, type, amount });
+  const newTransaction = new Account({ user_id: userId, type: type, amount: amount });
+  newTransaction.save()
+    .then(() => callback(null))
+    .catch(err => {
+      console.error("MongoDB Insert Error:", err);
+      callback(err);
+    });
 };
 
 const getBalance = (userId, callback) => {
-  db.query(`
-    SELECT 
-      SUM(CASE WHEN type = 'deposit' THEN amount ELSE -amount END) AS balance
-    FROM Accounts
-    WHERE user_id = ?
-  `, [userId], callback);
+  Account.aggregate([
+    { $match: { user_id: userId } },
+    { $group: {
+      _id: null,
+      balance: {
+        $sum: {
+          $cond: [
+            { $eq: ["$type", "deposit"] },
+            "$amount",
+            { $multiply: ["$amount", -1] }
+          ]
+        }
+      }
+    }}
+  ]).then(results => {
+    const balance = results.length > 0 ? results[0].balance : 0;
+    callback(null, [{ balance: balance }]);
+  }).catch(err => callback(err));
 };
 
 const getAllCustomers = (callback) => {
-  db.query("SELECT * FROM Users WHERE role = 'customer'", callback);
+  const User = mongoose.model('User');
+  User.find({ role: 'customer' })
+    .then(results => callback(null, results))
+    .catch(err => callback(err));
 };
 
 module.exports = { getTransactionsByUserId, createTransaction, getBalance, getAllCustomers };

@@ -5,10 +5,12 @@ export default function BankerDashboard() {
   const [customers, setCustomers] = useState([]);
   const [selectedTransactions, setSelectedTransactions] = useState([]);
   const [selectedCustomerName, setSelectedCustomerName] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const fetchCustomers = async () => {
     try {
       const res = await API.get('/account/customers');
+      console.log('Customers loaded:', res.data);
       setCustomers(res.data);
       setSelectedTransactions([]);
       setSelectedCustomerName('');
@@ -20,12 +22,17 @@ export default function BankerDashboard() {
 
   const viewTransactions = async (id, name) => {
     try {
+      setLoading(true);
+      console.log('Fetching transactions for customer:', id, name);
       const res = await API.get(`/account/customers/${id}/transactions`);
+      console.log('Transactions response:', res.data);
       setSelectedTransactions(res.data);
       setSelectedCustomerName(name);
     } catch (error) {
-      alert('Failed to load transactions');
-      console.error(error);
+      console.error('Error loading transactions:', error);
+      alert('Failed to load transactions: ' + (error.response?.data?.message || error.message));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,11 +55,11 @@ export default function BankerDashboard() {
         </thead>
         <tbody>
           {customers.map(c => (
-            <tr key={c.id}>
+            <tr key={c._id || c.id}>
               <td>{c.name}</td>
               <td>{c.email}</td>
               <td>
-                <button onClick={() => viewTransactions(c.id, c.name)}>
+                <button onClick={() => viewTransactions(c._id || c.id, c.name)}>
                   View Transactions
                 </button>
               </td>
@@ -61,9 +68,11 @@ export default function BankerDashboard() {
         </tbody>
       </table>
 
+      {loading && <p>Loading transactions...</p>}
+
       {selectedTransactions.length > 0 && (
         <>
-          <h3>{selectedCustomerName}'s Transaction History</h3>
+          <h3>{selectedCustomerName}'s Transaction History ({selectedTransactions.length} transactions)</h3>
           <table>
             <thead>
               <tr>
@@ -73,20 +82,24 @@ export default function BankerDashboard() {
               </tr>
             </thead>
             <tbody>
-              {selectedTransactions.map(txn => {
-  console.log('created_at value:', txn.created_at);
-  return (
-    <tr key={txn.id}>
-      <td>{txn.type}</td>
-      <td>₹{txn.amount}</td>
-      <td>{new Date(txn.created_at).toLocaleString()}</td>
-
-    </tr>
-  );
-})}
+              {selectedTransactions.map((txn, index) => {
+                console.log('Transaction data:', txn);
+                const date = txn.created_at || txn.transaction_date || txn.timestamp || new Date();
+                return (
+                  <tr key={txn._id || txn.id || index}>
+                    <td>{txn.type}</td>
+                    <td>₹{txn.amount}</td>
+                    <td>{new Date(date).toLocaleString()}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </>
+      )}
+
+      {selectedTransactions.length === 0 && selectedCustomerName && !loading && (
+        <p>No transactions found for {selectedCustomerName}</p>
       )}
     </div>
   );

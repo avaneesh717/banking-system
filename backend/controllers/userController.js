@@ -2,12 +2,22 @@ const { findUserByEmail, createUser, updateUserToken, findUserByToken } = requir
 const { v4: uuidv4 } = require('uuid');
 
 const login = (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
+
+  // Check if role is provided
+  if (!role) {
+    return res.status(400).json({ message: "Role is required" });
+  }
 
   findUserByEmail(email, (err, results) => {
     if (err) return res.status(500).send(err);
     if (results.length === 0 || results[0].password !== password) {
       return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Check if user's stored role matches the requested role
+    if (results[0].role !== role) {
+      return res.status(403).json({ message: `Access denied. You cannot login as ${role} with these credentials.` });
     }
 
     const token = uuidv4();

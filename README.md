@@ -1,5 +1,5 @@
 🏦 Simple Banking System
-This is a simple banking system application built using Node.js, React.js, Express, and MySQL. It follows the MVC (Model-View-Controller) architectural pattern and provides separate interfaces for customers and bankers.
+This is a simple banking system application built using Node.js, React.js, Express, and MongoDb. It follows the MVC (Model-View-Controller) architectural pattern and provides separate interfaces for customers and bankers.
 
 🚀 Features
 This application implements the following core functionalities:
@@ -12,14 +12,14 @@ Banker Dashboard: A dedicated view for bankers to manage all customer accounts a
 
 Transaction Management: Logic to handle deposits and withdrawals, including a check for insufficient funds.
 
-Database Management: Uses MySQL to store user and account data.
+Database Management: Uses MongoDb to store user and account data.
 
 ⚙️ Technologies Used
 Backend: Node.js, Express
 
 Frontend: React.js
 
-Database: MySQL
+Database: MongoDb
 
 Authentication: JSON Web Tokens (JWT)
 

@@ -9,8 +9,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: '*'// or your frontend port
-  credentials: true
+  origin: '*',// or your frontend port
+  credentials: false
 }));
 app.use(bodyParser.json());
 

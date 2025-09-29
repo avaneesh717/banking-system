@@ -14,7 +14,7 @@ export default function CustomerDashboard() {
       setTransactions(res.data);
     } catch (err) {
       console.error('Error fetching transactions', err);
-      // optional: show a user-friendly message
+      
     }
   };
 
@@ -48,7 +48,7 @@ export default function CustomerDashboard() {
           type={actionType}
           close={() => {
             setShowModal(false);
-            fetchTransactions(); // refresh after close
+            fetchTransactions(); 
           }}
         />
       )}

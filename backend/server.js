@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-const { connectDB } = require('./models/db'); // Add this line
+const { connectDB } = require('./models/db'); 
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,7 +20,7 @@ const accountRoutes = require('./routes/accountRoutes');
 app.use('/api/user', userRoutes);
 app.use('/api/account', accountRoutes);
 
-// Wait for DB connection before starting server
+
 const startServer = async () => {
   try {
     await connectDB();
